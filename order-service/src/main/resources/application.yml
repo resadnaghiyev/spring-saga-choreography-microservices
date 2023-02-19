@@ -1,0 +1,23 @@
+server.port: 8081
+
+spring:
+  datasource:
+    url: jdbc:mysql://${DB_MYSQL_HOST}:${DB_MYSQL_PORT}/saga_microservice
+    username: ${DB_MYSQL_USERNAME}
+    password: ${DB_MYSQL_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+  cloud:
+    stream:
+      function:
+        definition: orderSupplier;paymentEventConsumer
+      bindings:
+        orderSupplier-out-0:
+          destination: order-event
+        paymentEventConsumer-in-0:
+          destination: payment-event
